@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Dhikr {
+  id          Int    @id @default(autoincrement())
+  category    String
+  count       Int
+  description String
+  reference   String
+  content     String
+}
+
+model PushSubscription {
+  id                  String   @id @default(cuid())
+  endpoint            String   @unique
+  p256dh              String
+  auth                String
+  lat                 Float
+  lng                 Float
+  method              Int      @default(5)
+  madhab              Int      @default(0)
+  adhanEnabled        Boolean  @default(true)
+  reminderEnabled     Boolean  @default(false)
+  reminderMinutes     Int      @default(10)
+  salawatEnabled      Boolean  @default(false)
+  salawatInterval     Int      @default(5)
+  lastSalawatSent     String   @default("")
+  createdAt           DateTime @default(now())
+}
+
+model DailyGoal {
+  id              String   @id @default(cuid())
+  date            String   @unique
+  quranPages      Int      @default(0)
+  adhkarMorning   Boolean  @default(false)
+  adhkarEvening   Boolean  @default(false)
+  adhkarSleep     Boolean  @default(false)
+  salawatCount    Int      @default(0)
+  qiyamAlLayl     Boolean  @default(false)
+  duhaPrayer      Boolean  @default(false)
+  fasting         Boolean  @default(false)
+  charity         Boolean  @default(false)
+  notes           String   @default("")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
