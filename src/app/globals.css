@@ -1,0 +1,442 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Noto+Naskh+Arabic:wght@400;700&family=Scheherazade+New:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-zad-midnight: #0B0F1A;
+  --color-zad-navy: #111827;
+  --color-zad-surface: #1A2332;
+  --color-zad-border: #1E3A5F;
+  --color-zad-gold: #D4A017;
+  --color-zad-gold-light: #F5C842;
+  --color-zad-gold-muted: rgba(212,160,23,0.15);
+  --color-zad-green: #1A9B5F;
+  --color-zad-green-glow: rgba(26,155,95,0.25);
+  --color-zad-teal: #0EA5A0;
+  --color-zad-teal-glow: rgba(14,165,160,0.2);
+  --color-text-primary: #F7F3E9;
+  --color-text-secondary: #B8A98A;
+  --color-text-arabic: #EFE6D0;
+  --color-text-muted: #5A6478;
+  --color-fajr: #1A237E;
+  --color-fajr-glow: rgba(26, 35, 126, 0.4);
+  --color-dhuhr: #F59E0B;
+  --color-dhuhr-glow: rgba(245, 158, 11, 0.3);
+  --color-asr: #D97706;
+  --color-asr-glow: rgba(217, 119, 6, 0.3);
+  --color-maghrib: #DC2626;
+  --color-maghrib-glow: rgba(220, 38, 38, 0.3);
+  --color-isha: #1E1B4B;
+  --color-isha-glow: rgba(30, 27, 75, 0.4);
+
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --shadow-card-gold: 0 4px 14px -2px rgba(212, 160, 23, 0.25), 0 2px 8px -2px rgba(212, 160, 23, 0.15);
+  --shadow-card-prayer: 0 8px 32px -8px var(--shadow-color, rgba(212, 160, 23, 0.3));
+  --font-family-arabic: 'Noto Naskh Arabic', 'Inter', sans-serif;
+  --font-family-quran: 'Amiri Quran', serif;
+  --font-family-display: 'Scheherazade New', serif;
+  --font-family-sans: 'Inter', sans-serif;
+  --font-family-branding: 'Cinzel', serif;
+  --font-family-mono: 'JetBrains Mono', monospace;
+}
+
+:root {
+  --grad-gold: linear-gradient(135deg, #D4A017 0%, #F5C842 50%, #B8860B 100%);
+  --grad-card: linear-gradient(145deg, #111827 0%, #1A2332 100%);
+}
+
+body {
+  font-family: var(--font-family-arabic);
+  background-color: var(--color-zad-midnight);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+}
+
+/* Gold shimmer animation for headings */
+@keyframes goldShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.gold-text {
+  background: var(--grad-gold);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 3s linear infinite;
+}
+
+/* Quran text styling */
+.quran-text {
+  font-family: var(--font-family-quran);
+  font-size: 1.75rem;
+  line-height: 3rem;
+  text-align: justify;
+  color: var(--color-text-arabic);
+  word-spacing: 4px;
+  direction: rtl;
+}
+
+/* Arabic display font for titles */
+.arabic-display {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-zad-midnight);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-zad-border);
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-zad-gold);
+}
+
+/* Moon pulse animation */
+@keyframes moonGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(212,160,23,0.3); }
+  50% { box-shadow: 0 0 40px rgba(212,160,23,0.7), 0 0 60px rgba(212,160,23,0.3); }
+}
+
+.moon-glow {
+  animation: moonGlow 3s ease-in-out infinite;
+}
+
+/* Prayer card subtle border glow */
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(212,160,23,0.3); }
+  50% { border-color: rgba(212,160,23,0.7); }
+}
+
+.prayer-glow {
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+/* Tap ripple effect */
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+/* Smooth view transitions */
+.view-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.view-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease-out;
+}
+
+/* Safe area padding for mobile bottom nav */
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ─── Mus'haf Paper Styles ──────────────────────────────────── */
+.mushaf-page {
+  font-family: 'Amiri Quran', 'Noto Naskh Arabic', serif;
+  perspective: 1000px;
+}
+
+.mushaf-text {
+  font-family: 'Amiri Quran', serif;
+  font-size: 1.25rem;
+  line-height: 3;
+  text-align: justify;
+  word-spacing: 2px;
+  direction: rtl;
+  letter-spacing: 0.5px;
+}
+
+.bismillah-text {
+  font-family: 'Amiri Quran', serif;
+  letter-spacing: 2px;
+  line-height: 2;
+}
+
+.ayah-number {
+  font-family: 'Amiri Quran', serif;
+  font-size: 0.7rem;
+  color: #8B6914;
+  margin: 0 2px;
+}
+
+/* Mushaf page shadow for depth */
+.mushaf-page > div {
+  box-shadow:
+    0 4px 6px -1px rgba(139, 105, 20, 0.1),
+    0 10px 15px -3px rgba(139, 105, 20, 0.08),
+    0 20px 25px -5px rgba(139, 105, 20, 0.06);
+}
+
+/* Subtle paper texture on mushaf pages - behind all content */
+.mushaf-page > div::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(ellipse at 20% 50%, rgba(255, 248, 220, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 248, 220, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* Sajdah marker styling */
+.sajdah-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(26, 155, 95, 0.15);
+  color: #1A9B5F;
+  font-size: 0.65rem;
+  margin: 0 4px;
+  vertical-align: middle;
+}
+
+/* ─── Eye Comfort Mode ───────────────────────────────────── */
+.eye-comfort {
+  --color-zad-midnight: #1a1612;
+  --color-zad-navy: #211d18;
+  --color-zad-surface: #2a2520;
+  --color-zad-border: #3d3529;
+  --color-text-primary: #E8DCC8;
+  --color-text-secondary: #B8A98A;
+  --color-text-arabic: #E0D4BC;
+  --color-text-muted: #6B5D4A;
+  background-color: #1a1612 !important;
+  filter: sepia(8%) saturate(90%);
+}
+
+.eye-comfort .mushaf-page > div,
+.eye-comfort .mushaf-page > div::before {
+  background-color: #F5EDD6 !important;
+}
+
+.eye-comfort .quran-text,
+.eye-comfort .mushaf-text,
+.eye-comfort .bismillah-text {
+  color: #5C4A2A;
+}
+
+.eye-comfort .gold-text {
+  filter: brightness(0.9) sepia(10%);
+}
+
+/* Focus visible styles for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--color-zad-gold);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--color-zad-gold);
+  outline-offset: 2px;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-zad-gold);
+  outline-offset: 1px;
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Splash Screen ─────────────────────────────────────────────── */
+.splash-container {
+  position: fixed;
+  inset: 0;
+  z-index: [9999];
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #0B0F1A 0%, #111827 50%, #0B0F1A 100%);
+  overflow: hidden;
+}
+
+.splash-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.splash-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-col: align-items: center;
+  gap: 1.5rem;
+}
+
+.splash-kaaba {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.kaaba-cube {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: perspective(500px) rotateX(-20deg) rotateY(45deg);
+}
+
+.kaaba-face {
+  position: absolute;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+}
+
+.kaaba-front {
+  inset: 0;
+  transform: translateZ(40px);
+  background: linear-gradient(135deg, #1a1a1a 0%, #f5c84222 30%, #1a1a1a 100%);
+}
+
+.kaaba-right {
+  inset: 0;
+  transform: translateX(40px) rotateY(90deg);
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+}
+
+.kaaba-top {
+  inset: 0;
+  transform: translateY(-40px) rotateX(90deg);
+  background: linear-gradient(135deg, #f5c842 0%, #d4a017 50%, #b8860b 100%);
+  opacity: 0.9;
+}
+
+.kaaba-glow {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(212, 160, 23, 0.4) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: kaabaPulse 3s ease-in-out infinite;
+}
+
+@keyframes kaabaPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+.splash-bismillah {
+  text-align: center;
+}
+
+.splash-bismillah .bismillah-text {
+  font-family: 'Amiri Quran', 'Noto Naskh Arabic', serif;
+  font-size: 1.5rem;
+  color: #D4A017;
+  letter-spacing: 2px;
+  text-shadow: 0 0 30px rgba(212, 160, 23, 0.5);
+  animation: bismillahShimmer 3s ease-in-out infinite;
+}
+
+@keyframes bismillahShimmer {
+  0%, 100% { opacity: 0.8; text-shadow: 0 0 30px rgba(212, 160, 23, 0.5); }
+  50% { opacity: 1; text-shadow: 0 0 50px rgba(212, 160, 23, 0.8); }
+}
+
+.splash-tagline {
+  font-family: 'Noto Naskh Arabic', sans-serif;
+  font-size: 0.875rem;
+  color: #5A6478;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+}
+
+.splash-progress {
+  position: absolute;
+  bottom: 3rem;
+  width: 200px;
+  height: 2px;
+  background: #1E3A5F;
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.splash-progress-bar {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, #D4A017 50%, #F5C842 100%);
+  transform-origin: left center;
+}
+
+/* Stars */
+.stars-container {
+  position: absolute;
+  inset: 0;
+}
+
+.splash-star {
+  position: absolute;
+  background: #F5C842;
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+/* Islamic Pattern */
+.pattern-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+}
+
+.islamic-pattern {
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
+  max-height: 400px;
+}
+
+.pattern-group {
+  transform-origin: center;
+  animation: patternRotate 60s linear infinite;
+}
+
+@keyframes patternRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Stars Pattern Variant */
+.stars-pattern {
+  position: absolute;
+  inset: 0;
+}
+
+.pattern-star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+}
